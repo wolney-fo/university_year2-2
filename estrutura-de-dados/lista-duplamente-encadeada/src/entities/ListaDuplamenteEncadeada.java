@@ -22,32 +22,19 @@ public class ListaDuplamenteEncadeada<T> {
                 adicionaInicio(elemento);
             }
             else {
-                // Adicionar células seguintes
                 Iterador it = new Iterador(this.inicio);
 
                 int index = 0;
                 while (it.hasNext()){
-                    if (index == posicao - 1){
+                    if (index == posicao){
                         break;
                     }
                     it.next();
                     index++;
                 }
 
-                celula.setProximo(it.getAtual().getProximo());
-
-                //Inserir na lista
-                Iterador it1 = new Iterador(this.inicio);
-
-                index = 0;
-                while (it.hasNext()){
-                    if (index == posicao - 1){
-                        break;
-                    }
-                    it.next();
-                    index++;
-                }
-                it1.getAtual().setProximo(celula);
+                it.getAtual().setAnterior(celula);
+                celula.setProximo(it.getAtual());
 
                 this.tamanho++;
             }
@@ -64,6 +51,7 @@ public class ListaDuplamenteEncadeada<T> {
             this.tamanho++;
         } else {
             celula.setProximo(inicio);
+            this.inicio.setAnterior(celula);
             this.inicio = celula;
             this.tamanho++;
         }
@@ -72,33 +60,31 @@ public class ListaDuplamenteEncadeada<T> {
     public void adicionaFim(T elemento){
         Celula celula = new Celula(elemento);
         this.fim.setProximo(celula);
+        celula.setAnterior(this.fim);
         this.fim = celula;
         this.tamanho++;
     }
 
     public void remove(int posicao){
         Iterador it = new Iterador(this.inicio);
-        Iterador it1 = new Iterador(this.inicio);
 
         int index = 0;
         while (it.hasNext()){
-            if (index == posicao - 1){
+            if (index == posicao){
                 break;
             }
             it.next();
-            it1.next();
             index++;
         }
-        it1.next();
 
-        Celula novoProximo = it1.getAtual().getProximo();
-        it.getAtual().setProximo(novoProximo);
+        it.getAtual().getAnterior().setProximo(it.getAtual().getProximo());
 
         this.tamanho--;
     }
 
     public void removeInicio(){
         this.inicio = this.inicio.getProximo();
+        this.inicio.setAnterior(null);
         this.tamanho--;
     }
 
@@ -107,7 +93,7 @@ public class ListaDuplamenteEncadeada<T> {
 
         int index = 0;
         while (it.hasNext()){
-            if (index == this.tamanho - 2){
+            if (index == this.tamanho - 1){
                 break;
             }
             index++;
@@ -130,6 +116,7 @@ public class ListaDuplamenteEncadeada<T> {
             if (it.getAtual() == elemento) {
                 return true;
             }
+            it.next();
         }
         return false;
     }
