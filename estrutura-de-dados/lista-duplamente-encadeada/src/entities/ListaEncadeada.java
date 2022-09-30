@@ -1,13 +1,13 @@
 package entities;
 
-import entities.Celula;
-import entities.Iterador;
-public class ListaDuplamenteEncadeada<T> {
+
+public class ListaEncadeada<T> {
 
     private Celula inicio, fim;
     private int tamanho;
 
-    public ListaDuplamenteEncadeada() {
+
+    public ListaEncadeada() {
         this.inicio = null;
         this.fim = null;
         this.tamanho = 0;
