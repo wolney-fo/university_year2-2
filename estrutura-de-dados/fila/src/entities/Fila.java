@@ -18,12 +18,17 @@ public class Fila<T> {
     // Manipulação
     public void inserir(T elemento) {
         Celula celula = new Celula(elemento);
-        this.fim.setProximo(celula);
-        this.fim = celula;
+        if (!isEmpty()) {
+            this.fim.setProximo(celula);
+            this.fim = celula;
+        } else {
+            this.inicio = this.fim = celula;
+        }
+        tamanho++;
     }
 
     public void alterar(T elemento) {
-        if (this.tamanho >= 1) {
+        if (!isEmpty()) {
             Celula celula = new Celula(elemento);
             celula.setProximo(this.inicio.getProximo());
             this.inicio = celula;
@@ -59,7 +64,7 @@ public class Fila<T> {
     }
 
     public T recuperar() {
-        return (T) this.inicio;
+        return (T) this.inicio.getElemento();
     }
 
     public int tamanho() {
